@@ -31,13 +31,13 @@ extern "C" {
 
 size_t computeDataSize(size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
 unsigned char* zfp_compression_float(float* data, int mode, double tolerance, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1, size_t* outSize);
-float* zfp_decompression_float(unsigned char* bytes, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+float* zfp_decompression_float(unsigned char* bytes, int mode, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
 
 unsigned char* zfp_compression_double(double* data, int mode, double tolerance, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1, size_t* outSize);
-double* zfp_decompression_double(unsigned char* bytes, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+double* zfp_decompression_double(unsigned char* bytes, int mode, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
 
 unsigned char* zfp_compression(void* data, int dataType, int mode, double tolerance, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1, size_t* outSize);
-void* zfp_decompression(int dataType, unsigned char* bytes, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+void* zfp_decompression(int dataType, int mode, unsigned char* bytes, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
 
 #ifdef __cplusplus
 }

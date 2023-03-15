@@ -141,7 +141,7 @@ unsigned char* zfp_compression_float(float* data, int mode, double tolerance, si
     return buffer;
 }
 
-float* zfp_decompression_float(unsigned char* bytes, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1)
+float* zfp_decompression_float(unsigned char* bytes, int mode, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1)
 {
         int x = 1;
         char *y = (char*)&x;
@@ -189,7 +189,11 @@ float* zfp_decompression_float(unsigned char* bytes, size_t outSize, size_t r5, 
     
     double tolerance = ZFP_bytesToDouble(bytes);
     //printf("tolerance = %f\n", tolerance);
-    zfp_stream_set_accuracy(zfp, tolerance);
+    
+	if(mode==ZFP_FXR)
+		zfp_stream_set_rate(zfp, 32.0/tolerance, zfp_type_float, dims, 0);
+	else
+		zfp_stream_set_accuracy(zfp, tolerance);	    
     
     /* allocate buffer for compressed data */
     size_t bufsize = zfp_stream_maximum_size(zfp, field);
@@ -327,7 +331,7 @@ unsigned char* zfp_compression_double(double* data, int mode, double tolerance, 
     return buffer;
 }
 
-double* zfp_decompression_double(unsigned char* bytes, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1)
+double* zfp_decompression_double(unsigned char* bytes, int mode, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1)
 {
         int x = 1;
         char *y = (char*)&x;
@@ -375,7 +379,11 @@ double* zfp_decompression_double(unsigned char* bytes, size_t outSize, size_t r5
     
     double tolerance = ZFP_bytesToDouble(bytes);
     //printf("tolerance = %f\n", tolerance);
-    zfp_stream_set_accuracy(zfp, tolerance);
+    
+	if(mode==ZFP_FXR)
+		zfp_stream_set_rate(zfp, 32.0/tolerance, zfp_type_double, dims, 0);
+	else
+		zfp_stream_set_accuracy(zfp, tolerance);	   
     
     /* allocate buffer for compressed data */
     size_t bufsize = zfp_stream_maximum_size(zfp, field);
@@ -427,15 +435,15 @@ unsigned char* zfp_compression(void* data, int dataType, int mode, double tolera
 	return NULL;
 }
 
-void* zfp_decompression(int dataType, unsigned char* bytes, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1)
+void* zfp_decompression(int dataType, int mode, unsigned char* bytes, size_t outSize, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1)
 {
 	if(dataType==0)
 	{
-		return zfp_decompression_float(bytes, outSize, r5, r4, r3, r2, r1);	
+		return zfp_decompression_float(bytes, mode, outSize, r5, r4, r3, r2, r1);	
 	}
 	else if(dataType==1)
 	{
-		return zfp_decompression_double(bytes, outSize, r5, r4, r3, r2, r1);
+		return zfp_decompression_double(bytes, mode, outSize, r5, r4, r3, r2, r1);
 	}
 	return NULL;
 }

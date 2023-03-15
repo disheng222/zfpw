@@ -87,7 +87,7 @@ int main(int argc, char * argv[])
     //decompression
     size_t compressedDataSize = outSize;
     cost_start();
-    float* decData = zfp_decompression(ZFP_FLOAT, bytes, compressedDataSize, r5, r4, r3, r2, r1);
+    float* decData = zfp_decompression(ZFP_FLOAT, ZFP_ABS, bytes, compressedDataSize, r5, r4, r3, r2, r1);
     cost_end();
     printf("decompression time = %f\n",totalCost);
     ZFP_writeFloatData_inBytes(decData, nbEle, outputFilePath, &status);   
